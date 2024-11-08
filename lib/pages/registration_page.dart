@@ -1,26 +1,28 @@
 import 'package:catataja/components/catataja_button.dart';
-import 'package:catataja/components/catataja_logo.dart';
 import 'package:catataja/components/catataja_textformfield.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class LoginPage extends StatefulWidget {
+class RegistrationPage extends StatefulWidget {
   final void Function()? onPressed;
 
-  const LoginPage({super.key, required this.onPressed});
+  const RegistrationPage({super.key, required this.onPressed});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegistrationPage> createState() => _RegistrationPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegistrationPageState extends State<RegistrationPage> {
   // text editing controllers
+  final TextEditingController nameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController =
+      TextEditingController();
 
   // is visible
-  bool isVisisble = true;
+  bool passwordIsVisisble = true;
+  bool confirmPasswordIsVisisble = true;
 
   @override
   Widget build(BuildContext context) {
@@ -33,19 +35,35 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // logo
-                const CatatAjaLogo(fontSize: 60),
+                // title
+                Text(
+                  "Daftar Akun",
+                  style: GoogleFonts.poppins(
+                    fontSize: 35,
+                    fontWeight: FontWeight.w500,
+                    color: Theme.of(context).colorScheme.secondary,
+                  ),
+                ),
 
                 const SizedBox(height: 20),
+
+                // name textfield
+                CatatAjaTextFormField(
+                  controller: nameController,
+                  hintText: 'Nama',
+                  prefixIcon: const Icon(Icons.person_outline),
+                  obsecureText: false,
+                  maxLines: 1,
+                ),
+
+                const SizedBox(height: 10),
 
                 // email textfield
                 CatatAjaTextFormField(
                   controller: emailController,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.deny(RegExp(r'\s'))
-                  ],
                   hintText: 'Email',
                   prefixIcon: const Icon(Icons.email_outlined),
+                  obsecureText: false,
                   maxLines: 1,
                 ),
 
@@ -54,22 +72,40 @@ class _LoginPageState extends State<LoginPage> {
                 // password textfield
                 CatatAjaTextFormField(
                   controller: passwordController,
-                  inputFormatters: [
-                    FilteringTextInputFormatter.deny(RegExp(r'\s'))
-                  ],
                   hintText: 'Password',
                   prefixIcon: const Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
                     onPressed: () {
                       setState(() {
-                        isVisisble = !isVisisble;
+                        passwordIsVisisble = !passwordIsVisisble;
                       });
                     },
-                    icon: Icon(isVisisble
+                    icon: Icon(passwordIsVisisble
                         ? Icons.visibility_off_outlined
                         : Icons.visibility_outlined),
                   ),
-                  obsecureText: isVisisble,
+                  obsecureText: passwordIsVisisble,
+                  maxLines: 1,
+                ),
+
+                const SizedBox(height: 10),
+
+                // password textfield
+                CatatAjaTextFormField(
+                  controller: confirmPasswordController,
+                  hintText: 'Konfirmasi password',
+                  prefixIcon: const Icon(Icons.lock_outline),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        confirmPasswordIsVisisble = !confirmPasswordIsVisisble;
+                      });
+                    },
+                    icon: Icon(confirmPasswordIsVisisble
+                        ? Icons.visibility_off_outlined
+                        : Icons.visibility_outlined),
+                  ),
+                  obsecureText: confirmPasswordIsVisisble,
                   maxLines: 1,
                 ),
 
@@ -79,17 +115,17 @@ class _LoginPageState extends State<LoginPage> {
                 CatatAjaButton(
                   onPressed: () {},
                   color: Theme.of(context).colorScheme.primary,
-                  text: 'Masuk',
+                  text: "Daftar",
                 ),
 
                 const SizedBox(height: 5),
 
-                // Don't have an account yet? sign up now
+                // Already have an account? sign in now
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Belum punya akun?",
+                      "Sudah punya akun?",
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500,
                         color: Theme.of(context).colorScheme.tertiary,
@@ -98,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                     TextButton(
                       onPressed: widget.onPressed,
                       child: Text(
-                        "Daftar sekarang!",
+                        "Masuk sekarang!",
                         style: GoogleFonts.poppins(
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).colorScheme.tertiary,

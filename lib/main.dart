@@ -1,4 +1,4 @@
-import 'package:catataja/pages/login_page.dart';
+import 'package:catataja/authentication/login_or_register.dart';
 import 'package:catataja/themes/dark_mode.dart';
 import 'package:catataja/themes/light_mode.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +14,8 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const LoginPage(),
-      theme: darkMode,
+      home: const LoginOrRegister(),
+      theme: lightMode,
     );
   }
 }
