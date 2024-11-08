@@ -33,24 +33,26 @@ class CatatAjaTextFormField extends StatelessWidget {
       readOnly: readOnly ?? false,
       maxLines: maxLines,
       minLines: 1,
-      style: TextStyle(color: Colors.white),
+      style: TextStyle(color: Theme.of(context).colorScheme.secondary),
       decoration: InputDecoration(
         enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.secondary,
+          ),
           borderRadius: BorderRadius.circular(10),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.green),
+          borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
           borderRadius: BorderRadius.circular(10),
         ),
         prefixIcon: prefixIcon,
-        prefixIconColor: Colors.white,
+        prefixIconColor: Theme.of(context).colorScheme.secondary,
         hintText: hintText,
         hintStyle: GoogleFonts.poppins(
-          color: Colors.grey,
+          color: Theme.of(context).colorScheme.tertiary,
         ),
         suffixIcon: suffixIcon,
-        suffixIconColor: Colors.white,
+        suffixIconColor: Theme.of(context).colorScheme.secondary,
       ),
     );
   }

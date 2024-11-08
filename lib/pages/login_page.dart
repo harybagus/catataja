@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).colorScheme.background,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Center(
@@ -78,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                 // sign in button
                 CatatAjaButton(
                   onPressed: () {},
-                  color: Colors.green,
+                  color: Theme.of(context).colorScheme.primary,
                   text: 'Masuk',
                 ),
 
@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                       "Belum punya akun?",
                       style: GoogleFonts.poppins(
                         fontWeight: FontWeight.w500,
-                        color: Colors.grey,
+                        color: Theme.of(context).colorScheme.tertiary,
                       ),
                     ),
                     const SizedBox(width: 5),
@@ -102,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                         "Daftar sekarang!",
                         style: GoogleFonts.poppins(
                           fontWeight: FontWeight.bold,
-                          color: Colors.grey,
+                          color: Theme.of(context).colorScheme.tertiary,
                         ),
                       ),
                     ),

@@ -16,7 +16,7 @@ class CatatAjaLogo extends StatelessWidget {
           style: GoogleFonts.dancingScript(
             fontSize: fontSize,
             fontWeight: FontWeight.bold,
-            color: Colors.green,
+            color: Theme.of(context).colorScheme.primary,
           ),
         ),
         const SizedBox(width: 15),
@@ -25,7 +25,7 @@ class CatatAjaLogo extends StatelessWidget {
           style: GoogleFonts.dancingScript(
             fontSize: fontSize,
             fontWeight: FontWeight.bold,
-            color: Colors.white,
+            color: Theme.of(context).colorScheme.secondary,
           ),
         ),
       ],
