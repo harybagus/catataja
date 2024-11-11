@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:catataja/pages/home_page.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:catataja/components/catataja_button.dart';
@@ -86,7 +87,11 @@ class _LoginPageState extends State<LoginPage> {
 
         if (mounted) {
           // move to home page
-          //
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => HomePage(token: data["data"]["token"])),
+          );
 
           QuickAlert.show(
             context: context,
