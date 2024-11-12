@@ -119,7 +119,7 @@ class _LoginPageState extends State<LoginPage> {
             context: context,
             type: QuickAlertType.error,
             title: "Login Gagal",
-            text: "Login gagal: ${response.reasonPhrase}",
+            text: "Terjadi kesalahan pada login.",
             confirmBtnColor: Theme.of(context).colorScheme.primary,
           );
         }
@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
           context: context,
           type: QuickAlertType.error,
           title: "Error",
-          text: "Terjadi kesalahan: $e",
+          text: "Tidak dapat terhubung ke server.",
           confirmBtnColor: Theme.of(context).colorScheme.primary,
         );
       }

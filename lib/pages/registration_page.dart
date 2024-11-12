@@ -167,7 +167,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             context: context,
             type: QuickAlertType.error,
             title: "Registrasi Gagal",
-            text: "Registrasi gagal: ${response.reasonPhrase}",
+            text: "Terjadi kesalahan pada registrasi.",
             confirmBtnColor: Theme.of(context).colorScheme.primary,
           );
         }
@@ -179,7 +179,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           context: context,
           type: QuickAlertType.error,
           title: "Error",
-          text: "Terjadi kesalahan: $e",
+          text: "Tidak dapat terhubung ke server.",
           confirmBtnColor: Theme.of(context).colorScheme.primary,
         );
       }

@@ -1,3 +1,4 @@
+import 'package:catataja/components/catataja_drawer_navigation.dart';
 import 'package:catataja/components/catataja_logo.dart';
 import 'package:flutter/material.dart';
 
@@ -18,8 +19,8 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const CatatAjaLogo(fontSize: 30),
-        automaticallyImplyLeading: false,
       ),
+      drawer: CatatAjaDrawerNavigation(token: widget.token),
     );
   }
 }
