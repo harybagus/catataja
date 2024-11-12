@@ -43,7 +43,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.error,
-        title: "Registrasi Gagal",
+        title: "Gagal Mendaftar",
         text: "Nama, email, password, dan konfirmasi password harus diisi.",
         confirmBtnColor: Theme.of(context).colorScheme.primary,
       );
@@ -55,7 +55,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.error,
-        title: "Registrasi Gagal",
+        title: "Gagal Mendaftar",
         text: "Nama minimal harus terdiri dari 3 karakter.",
         confirmBtnColor: Theme.of(context).colorScheme.primary,
       );
@@ -67,7 +67,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.error,
-        title: "Registrasi Gagal",
+        title: "Gagal Mendaftar",
         text: "Email tidak valid.",
         confirmBtnColor: Theme.of(context).colorScheme.primary,
       );
@@ -79,7 +79,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.error,
-        title: "Registrasi Gagal",
+        title: "Gagal Mendaftar",
         text: "Password minimal harus terdiri dari 6 karakter.",
         confirmBtnColor: Theme.of(context).colorScheme.primary,
       );
@@ -91,7 +91,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.error,
-        title: "Registrasi Gagal",
+        title: "Gagal Mendaftar",
         text: "Password dan konfirmasi password tidak sama.",
         confirmBtnColor: Theme.of(context).colorScheme.primary,
       );
@@ -128,7 +128,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
           QuickAlert.show(
             context: context,
             type: QuickAlertType.success,
-            title: "Registrasi Berhasil",
+            title: "Berhasil Mendaftar",
             text: "Akun berhasil dibuat. Silakan masuk.",
             confirmBtnColor: Theme.of(context).colorScheme.primary,
           );
@@ -144,7 +144,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
             QuickAlert.show(
               context: context,
               type: QuickAlertType.error,
-              title: "Registrasi Gagal",
+              title: "Gagal Mendaftar",
               text: "Email sudah terdaftar. Silakan gunakan email lain.",
               confirmBtnColor: Theme.of(context).colorScheme.primary,
             );
@@ -154,8 +154,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
             QuickAlert.show(
               context: context,
               type: QuickAlertType.error,
-              title: "Registrasi Gagal",
-              text: "Terjadi kesalahan pada registrasi.",
+              title: "Gagal Mendaftar",
+              text: "Terjadi kesalahan pada pendaftaran.",
               confirmBtnColor: Theme.of(context).colorScheme.primary,
             );
           }
@@ -166,8 +166,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
           QuickAlert.show(
             context: context,
             type: QuickAlertType.error,
-            title: "Registrasi Gagal",
-            text: "Terjadi kesalahan pada registrasi.",
+            title: "Gagal Mendaftar",
+            text: "Terjadi kesalahan pada pendaftaran.",
             confirmBtnColor: Theme.of(context).colorScheme.primary,
           );
         }

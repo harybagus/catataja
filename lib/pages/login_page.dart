@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.error,
-        title: "Login Gagal",
+        title: "Gagal Masuk",
         text: "Email dan password harus diisi.",
         confirmBtnColor: Theme.of(context).colorScheme.primary,
       );
@@ -49,7 +49,7 @@ class _LoginPageState extends State<LoginPage> {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.error,
-        title: "Login Gagal",
+        title: "Gagal Masuk",
         text: "Email tidak valid.",
         confirmBtnColor: Theme.of(context).colorScheme.primary,
       );
@@ -61,7 +61,7 @@ class _LoginPageState extends State<LoginPage> {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.error,
-        title: "Login Gagal",
+        title: "Gagal Masuk",
         text: "Password minimal harus terdiri dari 6 karakter.",
         confirmBtnColor: Theme.of(context).colorScheme.primary,
       );
@@ -96,7 +96,7 @@ class _LoginPageState extends State<LoginPage> {
           QuickAlert.show(
             context: context,
             type: QuickAlertType.success,
-            title: "Login Berhasil",
+            title: "Berhasil Masuk",
             text: "Selamat datang, ${data["data"]["name"]}!",
             confirmBtnColor: Theme.of(context).colorScheme.primary,
           );
@@ -107,7 +107,7 @@ class _LoginPageState extends State<LoginPage> {
           QuickAlert.show(
             context: context,
             type: QuickAlertType.error,
-            title: "Login Gagal",
+            title: "Gagal Masuk",
             text: "Email atau password salah.",
             confirmBtnColor: Theme.of(context).colorScheme.primary,
           );
@@ -118,8 +118,8 @@ class _LoginPageState extends State<LoginPage> {
           QuickAlert.show(
             context: context,
             type: QuickAlertType.error,
-            title: "Login Gagal",
-            text: "Terjadi kesalahan pada login.",
+            title: "Gagal Masuk",
+            text: "Terjadi kesalahan pada saat masuk.",
             confirmBtnColor: Theme.of(context).colorScheme.primary,
           );
         }

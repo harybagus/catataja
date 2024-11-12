@@ -22,6 +22,7 @@ class _CatatAjaDrawerNavigationState extends State<CatatAjaDrawerNavigation> {
 
   // API endpoint url
   final String getCurrentUserUrl = "http://10.0.2.2:8000/api/users/current";
+  final String logoutUrl = "http://10.0.2.2:8000/api/users/logout";
 
   Future<void> fetchUserData() async {
     try {
@@ -61,6 +62,69 @@ class _CatatAjaDrawerNavigationState extends State<CatatAjaDrawerNavigation> {
         );
       }
     }
+  }
+
+  Future<void> logoutUser() async {
+    try {
+      final response = await http.delete(
+        Uri.parse(logoutUrl),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": widget.token,
+        },
+      );
+      if (response.statusCode == 200) {
+        // successful logout
+        if (mounted) {
+          // move to home page
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const LoginOrRegister()),
+          );
+
+          QuickAlert.show(
+            context: context,
+            type: QuickAlertType.success,
+            title: "Berhasil Keluar",
+            confirmBtnColor: Theme.of(context).colorScheme.primary,
+          );
+        }
+      } else {
+        if (mounted) {
+          QuickAlert.show(
+            context: context,
+            type: QuickAlertType.error,
+            title: "Gagal Keluar",
+            text: "Terjadi kesalahan saat keluar.",
+            confirmBtnColor: Theme.of(context).colorScheme.primary,
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.error,
+          title: "Error",
+          text: "Tidak dapat terhubung ke server.",
+          confirmBtnColor: Theme.of(context).colorScheme.primary,
+        );
+      }
+    }
+  }
+
+  void confirmLogout() {
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.confirm,
+      title: "Keluar",
+      text: "Apakah Anda yakin ingin keluar?",
+      confirmBtnColor: Theme.of(context).colorScheme.primary,
+      onConfirmBtnTap: () {
+        Navigator.of(context).pop();
+        logoutUser();
+      },
+    );
   }
 
   @override
@@ -135,7 +199,7 @@ class _CatatAjaDrawerNavigationState extends State<CatatAjaDrawerNavigation> {
 
             // logout
             CatatAjaDrawerTile(
-              onTap: () {},
+              onTap: confirmLogout,
               icon: Icons.logout,
               text: "Keluar",
             ),

@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: const CatatAjaLogo(fontSize: 30),
+        title: const CatatAjaLogo(fontSize: 35),
       ),
       drawer: CatatAjaDrawerNavigation(token: widget.token),
     );
