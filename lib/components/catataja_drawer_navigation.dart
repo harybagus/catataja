@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:catataja/authentication/login_or_register.dart';
 import 'package:catataja/components/catataja_drawer_tile.dart';
+import 'package:catataja/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
@@ -188,9 +189,11 @@ class _CatatAjaDrawerNavigationState extends State<CatatAjaDrawerNavigation> {
 
             // settings list tile
             CatatAjaDrawerTile(
-              onTap: () {
-                // Navigate to settings page
-              },
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => SettingsPage(token: widget.token)),
+              ),
               icon: Icons.settings_outlined,
               text: "Pengaturan",
             ),

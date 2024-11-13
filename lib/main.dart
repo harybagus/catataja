@@ -1,10 +1,15 @@
 import 'package:catataja/authentication/login_or_register.dart';
-import 'package:catataja/themes/dark_mode.dart';
-import 'package:catataja/themes/light_mode.dart';
+import 'package:catataja/themes/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => ThemeProvider()..initialize(),
+      child: const MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatelessWidget {
@@ -15,7 +20,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: const LoginOrRegister(),
-      theme: darkMode,
+      theme: Provider.of<ThemeProvider>(context).themeData,
     );
   }
 }
