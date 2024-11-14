@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:catataja/authentication/login_or_register.dart';
 import 'package:catataja/components/catataja_drawer_tile.dart';
+import 'package:catataja/pages/profile_page.dart';
 import 'package:catataja/pages/settings_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -146,7 +147,11 @@ class _CatatAjaDrawerNavigationState extends State<CatatAjaDrawerNavigation> {
             // user profile
             GestureDetector(
               onTap: () {
-                // Navigate to profile page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ProfilePage(token: widget.token)),
+                );
               },
               child: UserAccountsDrawerHeader(
                 currentAccountPicture: CircleAvatar(

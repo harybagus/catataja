@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:catataja/components/catataja_button.dart';
@@ -223,6 +224,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 // email textfield
                 CatatAjaTextFormField(
                   controller: emailController,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp(r'\s'))
+                  ],
                   hintText: "Email",
                   prefixIcon: const Icon(Icons.email_outlined),
                   obsecureText: false,
@@ -234,6 +238,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 // password textfield
                 CatatAjaTextFormField(
                   controller: passwordController,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp(r'\s'))
+                  ],
                   hintText: "Password",
                   prefixIcon: const Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
@@ -255,6 +262,9 @@ class _RegistrationPageState extends State<RegistrationPage> {
                 // password textfield
                 CatatAjaTextFormField(
                   controller: confirmPasswordController,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.deny(RegExp(r'\s'))
+                  ],
                   hintText: "Konfirmasi password",
                   prefixIcon: const Icon(Icons.lock_outline),
                   suffixIcon: IconButton(
