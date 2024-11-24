@@ -139,7 +139,6 @@ class _CatatAjaDrawerNavigationState extends State<CatatAjaDrawerNavigation> {
   Widget build(BuildContext context) {
     return Drawer(
       elevation: 0,
-      backgroundColor: Theme.of(context).colorScheme.background,
       child: Padding(
         padding: const EdgeInsets.only(left: 20, top: 0, right: 20, bottom: 10),
         child: Column(
