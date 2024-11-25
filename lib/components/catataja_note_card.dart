@@ -36,7 +36,7 @@ class CatatAjaNoteCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    note['title'],
+                    note["title"],
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
@@ -49,33 +49,33 @@ class CatatAjaNoteCard extends StatelessWidget {
                 // Options Menu
                 PopupMenuButton<String>(
                   onSelected: (value) {
-                    if (value == 'pin') {
+                    if (value == "pin") {
                       onPin();
-                    } else if (value == 'edit') {
+                    } else if (value == "edit") {
                       onEdit();
-                    } else if (value == 'delete') {
+                    } else if (value == "delete") {
                       onDelete();
                     }
                   },
                   itemBuilder: (context) => [
                     PopupMenuItem(
-                      value: 'pin',
+                      value: "pin",
                       child: Text(
-                        'Pin',
+                        note["pinned"] == "true" ? "Lepaskan pin" : "Pin",
                         style: GoogleFonts.poppins(),
                       ),
                     ),
                     PopupMenuItem(
-                      value: 'edit',
+                      value: "edit",
                       child: Text(
-                        'Edit',
+                        "Edit",
                         style: GoogleFonts.poppins(),
                       ),
                     ),
                     PopupMenuItem(
-                      value: 'delete',
+                      value: "delete",
                       child: Text(
-                        'Hapus',
+                        "Hapus",
                         style: GoogleFonts.poppins(),
                       ),
                     ),
@@ -87,7 +87,7 @@ class CatatAjaNoteCard extends StatelessWidget {
             const SizedBox(height: 8),
             Flexible(
               child: Text(
-                note['description'],
+                note["description"],
                 style: GoogleFonts.poppins(
                   fontSize: 14,
                   color: Theme.of(context).colorScheme.tertiary,

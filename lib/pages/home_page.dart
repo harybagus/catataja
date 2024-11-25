@@ -42,7 +42,14 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void _showCreateNoteModal() {
+  void _showCreateOrUpdateNoteModal({Map<String, dynamic>? note}) {
+    final isUpdate = note != null;
+    final title = isUpdate ? note["title"] : '';
+    final description = isUpdate ? note["description"] : '';
+
+    titleController.text = title;
+    descriptionController.text = description;
+
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -58,7 +65,7 @@ class _HomePageState extends State<HomePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                "Buat Catatan Baru",
+                isUpdate ? "Perbarui Catatan" : "Buat Catatan Baru",
                 style: GoogleFonts.poppins(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -67,14 +74,14 @@ class _HomePageState extends State<HomePage> {
               const SizedBox(height: 16),
               CatatAjaTextFormField(
                 controller: titleController,
-                hintText: "Judul",
+                hintText: isUpdate ? '' : 'Judul',
                 prefixIcon: const Icon(Icons.format_quote),
                 maxLines: 1,
               ),
               const SizedBox(height: 16),
               CatatAjaTextFormField(
                 controller: descriptionController,
-                hintText: "Deskripsi",
+                hintText: isUpdate ? '' : 'Deskripsi',
                 prefixIcon: const Icon(Icons.subtitles),
                 maxLines: 10,
               ),
@@ -133,13 +140,40 @@ class _HomePageState extends State<HomePage> {
                           return;
                         }
 
-                        createNote(
-                          titleController.text,
-                          descriptionController.text,
-                        );
+                        if (isUpdate) {
+                          if (titleController.text == note["title"] &&
+                              descriptionController.text ==
+                                  note["description"]) {
+                            QuickAlert.show(
+                              context: context,
+                              type: QuickAlertType.info,
+                              title: "Tidak Ada Perubahan",
+                              text:
+                                  "Tidak ada perubahan pada judul dan deskripsi.",
+                              confirmBtnColor:
+                                  Theme.of(context).colorScheme.primary,
+                            );
+                            return;
+                          } else {
+                            updateOrTogglePinNote(
+                              note["id"],
+                              title: titleController.text,
+                              description: descriptionController.text,
+                            );
+                          }
+                        } else {
+                          createNote(
+                            titleController.text,
+                            descriptionController.text,
+                          );
+                        }
 
-                        titleController.clear();
-                        descriptionController.clear();
+                        if (titleController.text != note?["title"] ||
+                            descriptionController.text !=
+                                note?["description"]) {
+                          titleController.clear();
+                          descriptionController.clear();
+                        }
                         Navigator.pop(context);
                       },
                       color: Theme.of(context).colorScheme.primary,
@@ -190,6 +224,68 @@ class _HomePageState extends State<HomePage> {
             type: QuickAlertType.error,
             title: "Gagal Membuat Catatan",
             text: "Terjadi kesalahan pada saat membuat catatan.",
+            confirmBtnColor: Theme.of(context).colorScheme.primary,
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.error,
+          title: "Error",
+          text: "Tidak dapat terhubung ke server.",
+          confirmBtnColor: Theme.of(context).colorScheme.primary,
+        );
+      }
+    }
+  }
+
+  Future<void> updateOrTogglePinNote(
+    int noteId, {
+    String? title,
+    String? description,
+    String? pinStatus,
+  }) async {
+    try {
+      final body = {
+        if (title != null) "title": title,
+        if (description != null) "description": description,
+        if (pinStatus != null) "pinned": pinStatus,
+      };
+
+      final response = await http.put(
+        Uri.parse("$noteUrl/$noteId"),
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          "Authorization": widget.token,
+        },
+        body: json.encode(body),
+      );
+
+      if (response.statusCode == 200) {
+        if (pinStatus == null) {
+          if (mounted) {
+            QuickAlert.show(
+              context: context,
+              type: QuickAlertType.success,
+              title: "Berhasil Memperbarui Catatan",
+              confirmBtnColor: Theme.of(context).colorScheme.primary,
+            );
+          }
+        }
+
+        setState(() {
+          _notesFuture = fetchNotes();
+        });
+      } else {
+        if (mounted) {
+          QuickAlert.show(
+            context: context,
+            type: QuickAlertType.error,
+            title: "Gagal Memperbarui Catatan",
+            text: "Terjadi kesalahan saat memperbarui catatan.",
             confirmBtnColor: Theme.of(context).colorScheme.primary,
           );
         }
@@ -332,7 +428,7 @@ class _HomePageState extends State<HomePage> {
                           const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         crossAxisSpacing: 1,
-                        mainAxisSpacing: 1,
+                        mainAxisSpacing: 5,
                       ),
                       itemCount: pinnedNotes.length,
                       itemBuilder: (context, index) {
@@ -340,8 +436,19 @@ class _HomePageState extends State<HomePage> {
                           onTap: () {},
                           child: CatatAjaNoteCard(
                             note: pinnedNotes[index],
-                            onPin: () {},
-                            onEdit: () {},
+                            onPin: () {
+                              updateOrTogglePinNote(
+                                pinnedNotes[index]["id"],
+                                title: pinnedNotes[index]["title"],
+                                description: pinnedNotes[index]["description"],
+                                pinStatus: "false",
+                              );
+                            },
+                            onEdit: () {
+                              _showCreateOrUpdateNoteModal(
+                                note: pinnedNotes[index],
+                              );
+                            },
                             onDelete: () {
                               QuickAlert.show(
                                 context: context,
@@ -394,8 +501,20 @@ class _HomePageState extends State<HomePage> {
                           onTap: () {},
                           child: CatatAjaNoteCard(
                             note: unpinnedNotes[index],
-                            onPin: () {},
-                            onEdit: () {},
+                            onPin: () {
+                              updateOrTogglePinNote(
+                                unpinnedNotes[index]["id"],
+                                title: unpinnedNotes[index]["title"],
+                                description: unpinnedNotes[index]
+                                    ["description"],
+                                pinStatus: "true",
+                              );
+                            },
+                            onEdit: () {
+                              _showCreateOrUpdateNoteModal(
+                                note: unpinnedNotes[index],
+                              );
+                            },
                             onDelete: () {
                               QuickAlert.show(
                                 context: context,
@@ -432,7 +551,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _showCreateNoteModal,
+        onPressed: _showCreateOrUpdateNoteModal,
         child: const Icon(Icons.add),
       ),
     );
