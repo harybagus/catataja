@@ -207,6 +207,55 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> deleteNote(int noteId) async {
+    try {
+      final response = await http.delete(
+        Uri.parse("$noteUrl/$noteId"),
+        headers: {
+          "Accept": "application/json",
+          "Authorization": widget.token,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        if (mounted) {
+          QuickAlert.show(
+            context: context,
+            type: QuickAlertType.success,
+            title: "Berhasil Menghapus Catatan",
+            confirmBtnColor: Theme.of(context).colorScheme.primary,
+          );
+
+          FocusScope.of(context).unfocus();
+        }
+
+        setState(() {
+          _notesFuture = fetchNotes();
+        });
+      } else {
+        if (mounted) {
+          QuickAlert.show(
+            context: context,
+            type: QuickAlertType.error,
+            title: "Gagal Menghapus Catatan",
+            text: "Terjadi kesalahan saat menghapus catatan.",
+            confirmBtnColor: Theme.of(context).colorScheme.primary,
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.error,
+          title: "Error",
+          text: "Tidak dapat terhubung ke server.",
+          confirmBtnColor: Theme.of(context).colorScheme.primary,
+        );
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -293,7 +342,24 @@ class _HomePageState extends State<HomePage> {
                             note: pinnedNotes[index],
                             onPin: () {},
                             onEdit: () {},
-                            onDelete: () {},
+                            onDelete: () {
+                              QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.confirm,
+                                title: "Hapus Catatan",
+                                text:
+                                    "Apakah Anda yakin ingin menghapus catatan ini?",
+                                confirmBtnColor:
+                                    Theme.of(context).colorScheme.primary,
+                                confirmBtnText: "Hapus",
+                                cancelBtnText: "Batal",
+                                showCancelBtn: true,
+                                onConfirmBtnTap: () {
+                                  Navigator.pop(context);
+                                  deleteNote(pinnedNotes[index]["id"]);
+                                },
+                              );
+                            },
                           ),
                         );
                       },
@@ -330,7 +396,24 @@ class _HomePageState extends State<HomePage> {
                             note: unpinnedNotes[index],
                             onPin: () {},
                             onEdit: () {},
-                            onDelete: () {},
+                            onDelete: () {
+                              QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.confirm,
+                                title: "Hapus Catatan",
+                                text:
+                                    "Apakah Anda yakin ingin menghapus catatan ini?",
+                                confirmBtnColor:
+                                    Theme.of(context).colorScheme.primary,
+                                confirmBtnText: "Hapus",
+                                cancelBtnText: "Batal",
+                                showCancelBtn: true,
+                                onConfirmBtnTap: () {
+                                  Navigator.pop(context);
+                                  deleteNote(unpinnedNotes[index]["id"]);
+                                },
+                              );
+                            },
                           ),
                         );
                       },
