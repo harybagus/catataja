@@ -42,6 +42,47 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _showNoteDetails(String title, String description) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            title,
+            style: GoogleFonts.poppins(
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          content: Text(
+            description,
+            style: GoogleFonts.poppins(),
+          ),
+          actions: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: ElevatedButton(
+                onPressed: () => Navigator.of(context).pop(),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                child: Text(
+                  "Tutup",
+                  style: GoogleFonts.poppins(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   void _showCreateOrUpdateNoteModal({Map<String, dynamic>? note}) {
     final isUpdate = note != null;
     final title = isUpdate ? note["title"] : '';
@@ -433,7 +474,12 @@ class _HomePageState extends State<HomePage> {
                       itemCount: pinnedNotes.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            _showNoteDetails(
+                              pinnedNotes[index]["title"],
+                              pinnedNotes[index]["description"],
+                            );
+                          },
                           child: CatatAjaNoteCard(
                             note: pinnedNotes[index],
                             onPin: () {
@@ -498,7 +544,12 @@ class _HomePageState extends State<HomePage> {
                       itemCount: unpinnedNotes.length,
                       itemBuilder: (context, index) {
                         return GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            _showNoteDetails(
+                              unpinnedNotes[index]["title"],
+                              unpinnedNotes[index]["description"],
+                            );
+                          },
                           child: CatatAjaNoteCard(
                             note: unpinnedNotes[index],
                             onPin: () {
