@@ -122,6 +122,7 @@ class _CatatAjaDrawerNavigationState extends State<CatatAjaDrawerNavigation> {
       title: "Keluar",
       text: "Apakah Anda yakin ingin keluar?",
       confirmBtnColor: Theme.of(context).colorScheme.primary,
+      cancelBtnText: "Batal",
       onConfirmBtnTap: () {
         Navigator.of(context).pop();
         logoutUser();

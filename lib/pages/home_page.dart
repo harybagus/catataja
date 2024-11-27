@@ -24,11 +24,17 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController titleController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
 
-  final String noteUrl = "http://10.0.2.2:8000/api/notes";
+  String searchKeyword = "";
+  bool _isSearching = false;
 
-  Future<Map<String, dynamic>> fetchNotes() async {
+  final String noteUrl = "http://10.0.2.2:8000/api/notes";
+  final String searchNotesUrl = "http://10.0.2.2:8000/api/notes/search";
+
+  Future<Map<String, dynamic>> fetchNotes({String? keyword}) async {
+    final url = keyword == null ? noteUrl : "$searchNotesUrl?keyword=$keyword";
+
     final response = await http.get(
-      Uri.parse(noteUrl),
+      Uri.parse(url),
       headers: {
         "Accept": "application/json",
         "Authorization": widget.token,
@@ -40,6 +46,64 @@ class _HomePageState extends State<HomePage> {
     } else {
       throw Exception("Failed to load notes");
     }
+  }
+
+  void showSearchDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            "Cari Catatan",
+            style: GoogleFonts.poppins(fontWeight: FontWeight.bold),
+          ),
+          content: TextField(
+            onChanged: (value) {
+              searchKeyword = value;
+            },
+            decoration: const InputDecoration(
+              hintText: "Masukkan judul atau deskripsi",
+              border: OutlineInputBorder(),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Close dialog
+              },
+              child: Text(
+                "Batal",
+                style: GoogleFonts.poppins(
+                  color: Theme.of(context).colorScheme.secondary,
+                ),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _notesFuture = fetchNotes(keyword: searchKeyword);
+                  _isSearching = true;
+                });
+                Navigator.of(context).pop();
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: Text(
+                "Cari",
+                style: GoogleFonts.poppins(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _showNoteDetails(String title, String description) {
@@ -393,6 +457,13 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void _refreshNotes() {
+    setState(() {
+      _notesFuture = fetchNotes();
+      _isSearching = false;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -406,6 +477,17 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         title: const CatatAjaLogo(fontSize: 35),
+        actions: [
+          _isSearching
+              ? IconButton(
+                  icon: const Icon(Icons.refresh),
+                  onPressed: _refreshNotes,
+                )
+              : IconButton(
+                  icon: const Icon(Icons.search),
+                  onPressed: showSearchDialog,
+                ),
+        ],
       ),
       drawer: CatatAjaDrawerNavigation(token: widget.token),
       body: FutureBuilder<Map<String, dynamic>>(
@@ -425,7 +507,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    "Anda belum memiliki catatan.\nAyo buat catatan pertama Anda!",
+                    _isSearching
+                        ? "Tidak ada catatan yang sesuai dengan kata kunci Anda."
+                        : "Anda belum memiliki catatan.\nAyo buat catatan pertama Anda!",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.poppins(
                       color: Theme.of(context).colorScheme.tertiary,
